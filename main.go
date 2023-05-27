@@ -19,7 +19,7 @@ func create(filename string) {
 	okbyte, err := os.ReadFile(filename)
 
 	if err != nil {
-		fmt.Print("not find .srt files")
+		fmt.Println(err)
 		return
 	}
 
