@@ -30,15 +30,20 @@ func create(filename string) {
 
 	txt := strings.Split(string(okbyte), "\n\r")
 
-	lrc := []string{"[00:00.000] lrc : laof"}
+	lrc := []string{"[ml:1.0]", "[00:00.000] lrc : laof"}
 
 	for i, session := range txt {
 
 		current := coverTime(session)
-
-		lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
 		status := fmt.Sprintf("%v / %v", i+1, len(txt))
 		fmt.Println(status)
+
+		if current.time == "" {
+			continue
+		}
+
+		lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
+
 		if !i18n {
 			continue
 		}
@@ -52,7 +57,6 @@ func create(filename string) {
 			nextTime = next.time
 		}
 		lrc = append(lrc, fmt.Sprintf("%s %s", nextTime, zh))
-
 	}
 
 	text := strings.Join(lrc, "\r")
