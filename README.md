@@ -3,11 +3,11 @@
 srt convert LRC
 
 ```
-srt2lrc test.srt
+$ srt2lrc test.srt
 ```
 
 
-## srt file
+## srt
 ```
 1
 00:00:16,766 --> 00:00:18,066
@@ -22,7 +22,7 @@ dialogue 1
 excuse me may I come in
 ```
 
-## lrc file
+## lrc
 ```
 [00:16.766] reporting work
 [00:23.400] dialogue 1
