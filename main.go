@@ -37,7 +37,8 @@ func create(filename string) {
 		current := coverTime(session)
 
 		lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
-
+		status := fmt.Sprintf("%v / %v", i+1, len(txt))
+		fmt.Println(status)
 		if !i18n {
 			continue
 		}
