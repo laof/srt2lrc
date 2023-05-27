@@ -20,7 +20,6 @@ dialogue 1
 3
 00:00:26,066 --> 00:00:28,299
 excuse me may I come in
-
 ```
 
 ## lrc file
@@ -28,7 +27,6 @@ excuse me may I come in
 [00:16.766] reporting work
 [00:23.400] dialogue 1
 [00:26.066] excuse me may I come in
-
 ```
 
 
