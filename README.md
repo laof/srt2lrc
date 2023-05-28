@@ -30,10 +30,6 @@ yes please
 [00:26.066] 是的,请
 ```
 
-
-
-
-
 ## download
 
-[srt2lrc.exe (2M)](https://raw.githubusercontent.com/laof/srt2lrc/main/srt2lrc.exe)
+[srt2lrc.exe (6M)](https://raw.githubusercontent.com/laof/srt2lrc/main/srt2lrc.exe)
