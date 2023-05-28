@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path"
 	"srt2lrc/translate"
 	"strconv"
 	"strings"
@@ -77,7 +78,7 @@ func create(filename string) {
 	}
 
 	text := strings.Join(lrc, "\r")
-	fs := filename + ".lrc"
+	fs := strings.TrimSuffix(filename, path.Ext(filename)) + ".lrc"
 	os.WriteFile(fs, []byte(text), os.ModePerm)
 	fmt.Println(fs + " done!")
 }
