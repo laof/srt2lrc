@@ -3,30 +3,31 @@
 srt convert LRC
 
 ```
-$ srt2lrc test.srt
+$ srt2lrc filename [y]
 ```
+## translation (slow)
+y enable English translation Chinese, Only support English to Chinese
 
 
 ## srt
 ```
 1
 00:00:16,766 --> 00:00:18,066
-reporting work
+excuse me may I come in
 
 2
 00:00:23,400 --> 00:00:24,766
-dialogue 1
-
-3
-00:00:26,066 --> 00:00:28,299
-excuse me may I come in
+yes please
 ```
 
 ## lrc
 ```
-[00:16.766] reporting work
-[00:23.400] dialogue 1
-[00:26.066] excuse me may I come in
+[ml:1.0]
+[00:00.000] lrc : laof
+[00:16.766] excuse me may I come in
+[00:23.400] 对不起，我可以进来吗
+[00:23.400] yes please
+[00:26.066] 是的,请
 ```
 
 

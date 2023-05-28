@@ -1,6 +1,6 @@
 package translate
 
-type ResultData struct {
+type Result struct {
 	ReturnPhrase  []string      `json:"returnPhrase"`
 	Query         string        `json:"query"`
 	ErrorCode     string        `json:"errorCode"`

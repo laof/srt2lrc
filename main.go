@@ -9,11 +9,17 @@ import (
 	"time"
 )
 
-var i18n = true
+var i18n = false
 
 func main() {
 
-	if len(os.Args) == 2 {
+	args := len(os.Args)
+
+	if args == 3 {
+		i18n = os.Args[2] == "y"
+	}
+
+	if args >= 2 {
 		create(os.Args[1])
 	} else {
 		fmt.Println("please enter file info")
@@ -30,7 +36,11 @@ func create(filename string) {
 
 	txt := strings.Split(string(okbyte), "\n\r")
 
-	lrc := []string{"[ml:1.0]", "[00:00.000] lrc : laof"}
+	lrc := []string{"[00:00.000] lrc : laof"}
+
+	if i18n {
+		lrc = append([]string{"[ml:1.0]"}, lrc...)
+	}
 
 	for i, session := range txt {
 
@@ -51,11 +61,16 @@ func create(filename string) {
 		time.Sleep(1 * time.Second)
 		zh := translate.Translator(current.subtitle)
 
-		nextTime := current.time
+		nextTime := ""
 		if i != len(txt)-1 {
 			next := coverTime(txt[i+1])
 			nextTime = next.time
 		}
+
+		if nextTime == "" {
+			nextTime = current.time
+		}
+
 		lrc = append(lrc, fmt.Sprintf("%s %s", nextTime, zh))
 	}
 

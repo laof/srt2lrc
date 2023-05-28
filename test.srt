@@ -1,33 +1,23 @@
 1
 00:00:16,766 --> 00:00:18,066
-reporting work
+excuse me may I come in
 
 2
 00:00:23,400 --> 00:00:24,766
-dialogue 1
+yes please
 
 3
 00:00:26,066 --> 00:00:28,299
-excuse me may I come in
+Mister John
 
 4
 00:00:28,933 --> 00:00:30,199
-yes please
+this is the project plan you asked me to make
 
 5
 00:00:30,700 --> 00:00:31,666
-Mister John
-
-6
-00:00:31,666 --> 00:00:34,199
-this is the project plan you asked me to make
-
-7
-00:00:34,933 --> 00:00:37,333
-okay you did it rapidly
-
-8
-00:00:37,966 --> 00:00:38,866
 thank you
+
+
 
 

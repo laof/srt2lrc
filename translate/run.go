@@ -22,17 +22,17 @@ func Translator(txt string) string {
 	// 添加鉴权相关参数
 	authv3.AddAuthParams(appKey, appSecret, paramsMap)
 	// 请求api服务
-	result := utils.DoPost("https://openapi.youdao.com/api", header, paramsMap, "application/json")
+	res := utils.DoPost("https://openapi.youdao.com/api", header, paramsMap, "application/json")
 	// 打印返回结果
-	if result != nil {
-		data := ResultData{}
-		ok := json.Unmarshal(result, &data)
-		if ok == nil && len(data.Translation) > 0 {
-			return data.Translation[0]
+	if res != nil {
+		result := Result{}
+		ok := json.Unmarshal(res, &result)
+		if ok == nil && len(result.Translation) > 0 {
+			return result.Translation[0]
 		}
 
 		fmt.Println(txt)
-		fmt.Println(string(result))
+		fmt.Println(string(res))
 	}
 	return ""
 }
