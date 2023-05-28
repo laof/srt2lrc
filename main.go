@@ -34,7 +34,16 @@ func create(filename string) {
 		return
 	}
 
+	arr := []LRC{}
+
 	txt := strings.Split(string(okbyte), "\n\r")
+	for _, str := range txt {
+		obj := coverTime(str)
+		if obj.time == "" || obj.subtitle == "" {
+			continue
+		}
+		arr = append(arr, obj)
+	}
 
 	lrc := []string{"[00:00.000] lrc : laof"}
 
@@ -42,15 +51,7 @@ func create(filename string) {
 		lrc = append([]string{"[ml:1.0]"}, lrc...)
 	}
 
-	for i, session := range txt {
-
-		current := coverTime(session)
-		status := fmt.Sprintf("%v / %v", i+1, len(txt))
-		fmt.Println(status)
-
-		if current.time == "" {
-			continue
-		}
+	for i, current := range arr {
 
 		lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
 
@@ -60,10 +61,11 @@ func create(filename string) {
 
 		time.Sleep(1 * time.Second)
 		zh := translate.Translator(current.subtitle)
-
+		status := fmt.Sprintf("(%v/%v) [%v] => [%v]", i+1, len(arr), current.subtitle, zh)
+		fmt.Println(status)
 		nextTime := ""
-		if i != len(txt)-1 {
-			next := coverTime(txt[i+1])
+		if i != len(arr)-1 {
+			next := arr[i+1]
 			nextTime = next.time
 		}
 
@@ -77,7 +79,7 @@ func create(filename string) {
 	text := strings.Join(lrc, "\r")
 	fs := filename + ".lrc"
 	os.WriteFile(fs, []byte(text), os.ModePerm)
-	fmt.Println(fs + " ok")
+	fmt.Println(fs + " done!")
 }
 
 type LRC struct {
