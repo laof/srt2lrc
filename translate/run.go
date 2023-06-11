@@ -7,34 +7,25 @@ import (
 	"srt2lrc/translate/utils/authv3"
 )
 
-func T1(txt string) string {
-
-	// 您的应用ID
-	appKey := "2ccac2276928012f"
-	// 您的应用密钥
-	appSecret := "tm0aC9BVe2qZq4DuHRR9p5KdEA7y6l1Y"
-
-	return translator(txt, appKey, appSecret)
+type TranslateApplication struct {
+	Key    string
+	Secret string
 }
 
-func T2(txt string) string {
-
-	// 您的应用ID
-	mkey := "127b8fcd5dc1eb9e"
-	// 您的应用密钥
-	appSecret := "Tzl7WkRG9Nzwdp9ew0GWCjIsqJ4XVRlv"
-
-	return translator(txt, mkey, appSecret)
+var Apps = []TranslateApplication{
+	{Key: "2ccac2276928012f", Secret: "tm0aC9BVe2qZq4DuHRR9p5KdEA7y6l1Y"}, // o
+	{Key: "127b8fcd5dc1eb9e", Secret: "Tzl7WkRG9Nzwdp9ew0GWCjIsqJ4XVRlv"}, // mi
 }
 
-func translator(txt string, appKey string, appSecret string) string {
+func Translator(txt string, i int) string {
+
 	// 添加请求参数
 	paramsMap := createRequestParams(txt)
 	header := map[string][]string{
 		"Content-Type": {"application/x-www-form-urlencoded"},
 	}
 	// 添加鉴权相关参数
-	authv3.AddAuthParams(appKey, appSecret, paramsMap)
+	authv3.AddAuthParams(Apps[i].Key, Apps[i].Secret, paramsMap)
 	// 请求api服务
 	res := utils.DoPost("https://openapi.youdao.com/api", header, paramsMap, "application/json")
 	// 打印返回结果

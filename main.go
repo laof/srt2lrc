@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 	"path"
 	"srt2lrc/translate"
@@ -35,65 +37,67 @@ func create(filename string) {
 		return
 	}
 
-	arr := []LRC{}
+	list := []LRC{}
 
 	txt := strings.Split(string(okbyte), "\n\r")
 	for _, str := range txt {
 		obj := coverTime(str)
-		if obj.time == "" || obj.subtitle == "" {
+		if obj.Time == "" || obj.Subtitle == "" {
 			continue
 		}
-		arr = append(arr, obj)
+		list = append(list, obj)
 	}
 
-	lrc := []string{"[00:00.000] lrc : laof"}
+	appLength := len(translate.Apps)
+	dataLength := len(list)
 
-	if i18n {
-		// lrc = append([]string{"[ml:1.0]"}, lrc...)
-	}
+	app, _ := strconv.ParseFloat(strconv.Itoa(appLength), 64)
+	data, _ := strconv.ParseFloat(strconv.Itoa(dataLength), 64)
 
-	for i, current := range arr {
+	total := int(math.Ceil(data / app))
 
-		// lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
+	res := []LRC{}
+	for i := 0; i < total; i++ {
 
-		// if !i18n {
-		// 	continue
-		// }
-
-		time.Sleep(500 * time.Millisecond)
-		zh := ""
-
-		if i%2 == 0 {
-			zh = translate.T1(current.subtitle)
-		} else {
-			zh = translate.T2(current.subtitle)
+		if i18n {
+			time.Sleep(1 * time.Second)
 		}
-		status := fmt.Sprintf("(%v/%v) [%v] => [%v]", i+1, len(arr), current.subtitle, zh)
-		fmt.Println(status)
 
-		lrc = append(lrc, fmt.Sprintf("%s %s <br> %s", current.time, current.subtitle, zh))
-		// nextTime := ""
-		// if i != len(arr)-1 {
-		// 	next := arr[i+1]
-		// 	nextTime = next.time
-		// }
+		start := i * appLength
+		end := start + appLength
 
-		// if nextTime == "" {
-		// 	nextTime = current.time
-		// }
+		var arr []LRC
 
-		// lrc = append(lrc, fmt.Sprintf("%s %s", nextTime, zh))
+		if end > dataLength {
+			arr = list[start:]
+		} else {
+			arr = list[start:end]
+		}
+
+		for zhi, obj := range arr {
+
+			if i18n {
+				obj.Translation = translate.Translator(obj.Subtitle, zhi)
+				fmt.Printf("(%v / %v) [%v] => [%v]\n", start+zhi+1, dataLength, obj.Subtitle, obj.Translation)
+			}
+
+			res = append(res, obj)
+
+		}
+
 	}
 
-	text := strings.Join(lrc, "\r")
-	fs := strings.TrimSuffix(filename, path.Ext(filename)) + ".lrc"
-	os.WriteFile(fs, []byte(text), os.ModePerm)
+	txtbyte, _ := json.Marshal(res)
+
+	fs := strings.TrimSuffix(filename, path.Ext(filename)) + ".json"
+	os.WriteFile(fs, txtbyte, os.ModePerm)
 	fmt.Println(fs + " done!")
 }
 
 type LRC struct {
-	time     string
-	subtitle string
+	Translation string `json:"i18n"`
+	Subtitle    string `json:"s"`
+	Time        string `json:"t"`
 }
 
 /**
@@ -135,12 +139,12 @@ func coverTime(session string) LRC {
 				minutes = "0" + strconv.Itoa(m)
 			}
 
-			obj.time = fmt.Sprintf("[%s:%s.%s]", minutes, seconds, detail[1])
+			obj.Time = fmt.Sprintf("%s:%s.%s", minutes, seconds, detail[1])
 		} else {
-			obj.time = fmt.Sprintf("[%s]", timeline)
+			obj.Time = timeline
 		}
 
-		obj.subtitle = strings.TrimLeft(info[2], "\n\r")
+		obj.Subtitle = strings.TrimLeft(info[2], "\n\r")
 		return obj
 	}
 
