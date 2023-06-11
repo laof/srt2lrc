@@ -7,13 +7,27 @@ import (
 	"srt2lrc/translate/utils/authv3"
 )
 
-// 您的应用ID
-var appKey = "2ccac2276928012f"
+func T1(txt string) string {
 
-// 您的应用密钥
-var appSecret = "tm0aC9BVe2qZq4DuHRR9p5KdEA7y6l1Y"
+	// 您的应用ID
+	appKey := "2ccac2276928012f"
+	// 您的应用密钥
+	appSecret := "tm0aC9BVe2qZq4DuHRR9p5KdEA7y6l1Y"
 
-func Translator(txt string) string {
+	return translator(txt, appKey, appSecret)
+}
+
+func T2(txt string) string {
+
+	// 您的应用ID
+	mkey := "127b8fcd5dc1eb9e"
+	// 您的应用密钥
+	appSecret := "Tzl7WkRG9Nzwdp9ew0GWCjIsqJ4XVRlv"
+
+	return translator(txt, mkey, appSecret)
+}
+
+func translator(txt string, appKey string, appSecret string) string {
 	// 添加请求参数
 	paramsMap := createRequestParams(txt)
 	header := map[string][]string{

@@ -49,32 +49,40 @@ func create(filename string) {
 	lrc := []string{"[00:00.000] lrc : laof"}
 
 	if i18n {
-		lrc = append([]string{"[ml:1.0]"}, lrc...)
+		// lrc = append([]string{"[ml:1.0]"}, lrc...)
 	}
 
 	for i, current := range arr {
 
-		lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
+		// lrc = append(lrc, fmt.Sprintf("%s %s", current.time, current.subtitle))
 
-		if !i18n {
-			continue
+		// if !i18n {
+		// 	continue
+		// }
+
+		time.Sleep(500 * time.Millisecond)
+		zh := ""
+
+		if i%2 == 0 {
+			zh = translate.T1(current.subtitle)
+		} else {
+			zh = translate.T2(current.subtitle)
 		}
-
-		time.Sleep(1 * time.Second)
-		zh := translate.Translator(current.subtitle)
 		status := fmt.Sprintf("(%v/%v) [%v] => [%v]", i+1, len(arr), current.subtitle, zh)
 		fmt.Println(status)
-		nextTime := ""
-		if i != len(arr)-1 {
-			next := arr[i+1]
-			nextTime = next.time
-		}
 
-		if nextTime == "" {
-			nextTime = current.time
-		}
+		lrc = append(lrc, fmt.Sprintf("%s %s <br> %s", current.time, current.subtitle, zh))
+		// nextTime := ""
+		// if i != len(arr)-1 {
+		// 	next := arr[i+1]
+		// 	nextTime = next.time
+		// }
 
-		lrc = append(lrc, fmt.Sprintf("%s %s", nextTime, zh))
+		// if nextTime == "" {
+		// 	nextTime = current.time
+		// }
+
+		// lrc = append(lrc, fmt.Sprintf("%s %s", nextTime, zh))
 	}
 
 	text := strings.Join(lrc, "\r")
