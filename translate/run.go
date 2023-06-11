@@ -15,6 +15,7 @@ type TranslateApplication struct {
 var Apps = []TranslateApplication{
 	{Key: "2ccac2276928012f", Secret: "tm0aC9BVe2qZq4DuHRR9p5KdEA7y6l1Y"}, // o
 	{Key: "127b8fcd5dc1eb9e", Secret: "Tzl7WkRG9Nzwdp9ew0GWCjIsqJ4XVRlv"}, // mi
+	{Key: "648570adaa7710aa", Secret: "mxWnyApTUkk1PDwiWATVZm9FDNGlQCEO"}, // yi
 }
 
 func Translator(txt string, i int) string {
